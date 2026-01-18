@@ -526,16 +526,45 @@ export default function Home() {
                       <span className="text-amber-400 text-lg">☯</span>
                     </div>
                     <div>
-                      <h3
-                        className="text-xl font-serif tracking-widest"
-                        style={{
-                          background: 'linear-gradient(90deg, #fde68a, #d4af37)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                        }}
-                      >
-                        {state.context.activeDimensionId?.toUpperCase()} 之局
-                      </h3>
+                      <div className="flex items-center gap-2">
+                        <h3
+                          className="text-xl font-serif tracking-widest"
+                          style={{
+                            background: 'linear-gradient(90deg, #fde68a, #d4af37)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                          }}
+                        >
+                          {{
+                            career: '事业', wealth: '财运', relationships: '感情',
+                            health: '健康', living: '居住'
+                          }[state.context.activeDimensionId || 'career'] || '命盘'} 之局
+                        </h3>
+                        {/* Switch Topic Button - next to title */}
+                        <button
+                          onClick={() => {
+                            const dims = ['career', 'wealth', 'relationships', 'health', 'living'];
+                            const currentDim = state.context.activeDimensionId;
+                            const otherDims = dims.filter(d => d !== currentDim);
+                            const labels: Record<string, string> = {
+                              career: '事业', wealth: '财运', relationships: '感情',
+                              health: '健康', living: '居住'
+                            };
+                            const choice = prompt(`想换个话题？\n\n1. ${labels[otherDims[0]]}\n2. ${labels[otherDims[1]]}\n3. ${labels[otherDims[2]]}\n4. ${labels[otherDims[3]]}\n\n输入数字 1-4:`);
+                            if (choice && ['1', '2', '3', '4'].includes(choice)) {
+                              handleRestart(otherDims[parseInt(choice) - 1]);
+                            }
+                          }}
+                          className="text-xs px-2 py-1 rounded-full transition-all duration-300 hover:scale-105"
+                          style={{
+                            background: 'rgba(245,158,11,0.1)',
+                            border: '1px solid rgba(245,158,11,0.3)',
+                            color: 'rgb(251, 191, 36)'
+                          }}
+                        >
+                          🔄 换
+                        </button>
+                      </div>
                       <p className="text-xs text-amber-500/50 tracking-wider">天机推演中...</p>
                     </div>
                   </div>
@@ -610,34 +639,6 @@ export default function Home() {
 
               {/* Input Area */}
               <div className="p-4 border-t border-amber-500/10 bg-black/30">
-                {/* Switch Topic Button - Made more prominent */}
-                <div className="flex justify-center mb-3">
-                  <button
-                    onClick={() => {
-                      const dims = ['career', 'wealth', 'relationships', 'health', 'living'];
-                      const currentDim = state.context.activeDimensionId;
-                      const otherDims = dims.filter(d => d !== currentDim);
-                      const labels: Record<string, string> = {
-                        career: '事业', wealth: '财运', relationships: '感情',
-                        health: '健康', living: '居住'
-                      };
-                      // Show dimension selector
-                      const choice = prompt(`想换个话题？\n\n1. ${labels[otherDims[0]]}\n2. ${labels[otherDims[1]]}\n3. ${labels[otherDims[2]]}\n4. ${labels[otherDims[3]]}\n\n输入数字 1-4:`);
-                      if (choice && ['1', '2', '3', '4'].includes(choice)) {
-                        handleRestart(otherDims[parseInt(choice) - 1]);
-                      }
-                    }}
-                    className="px-4 py-2 rounded-full text-sm font-serif tracking-wide transition-all duration-300 hover:scale-105 active:scale-95"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(0,0,0,0.4))',
-                      border: '1px solid rgba(245,158,11,0.4)',
-                      color: 'rgb(251, 191, 36)',
-                      boxShadow: '0 0 15px rgba(245,158,11,0.1)'
-                    }}
-                  >
-                    🔄 换个话题
-                  </button>
-                </div>
                 <div className="relative">
                   <input
                     className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-6 pr-16 py-4 text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
