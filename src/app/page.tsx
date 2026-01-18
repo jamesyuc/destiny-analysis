@@ -283,6 +283,14 @@ export default function Home() {
               // SKIP: fill slot and reset lock to trigger next question
               send({ type: 'SLOT_FILLED', key: missingSlot.key, value: 'N/A (Skipped by AI)' });
               isAskingRef.current = false;
+            } else if (data.wantsToSwitch && data.suggestedDimension) {
+              // AI detected user wants to switch topic
+              const switchMsg = data.question || `好，那我们聊聊${data.suggestedDimension === 'living' ? '居住' : data.suggestedDimension === 'wealth' ? '财运' : data.suggestedDimension === 'health' ? '健康' : data.suggestedDimension === 'relationships' ? '感情' : '其他'}的问题`;
+              setChatHistory(prev => [...prev, { role: 'ai', content: switchMsg }]);
+              // Auto-switch dimension after brief delay
+              setTimeout(() => {
+                handleRestart(data.suggestedDimension);
+              }, 1500);
             } else {
               setAiQuestion(data.question);
               setChatHistory(prev => [...prev, { role: 'ai', content: data.question }]);
@@ -605,6 +613,28 @@ export default function Home() {
 
               {/* Input Area */}
               <div className="p-4 border-t border-amber-500/10 bg-black/30">
+                {/* Switch Topic Button */}
+                <div className="flex justify-center mb-3">
+                  <button
+                    onClick={() => {
+                      const dims = ['career', 'wealth', 'relationships', 'health', 'living'];
+                      const currentDim = state.context.activeDimensionId;
+                      const otherDims = dims.filter(d => d !== currentDim);
+                      const labels: Record<string, string> = {
+                        career: '事业', wealth: '财运', relationships: '感情',
+                        health: '健康', living: '居住'
+                      };
+                      // Show dimension selector
+                      const choice = prompt(`想换个话题？\n\n1. ${labels[otherDims[0]]}\n2. ${labels[otherDims[1]]}\n3. ${labels[otherDims[2]]}\n4. ${labels[otherDims[3]]}\n\n输入数字 1-4:`);
+                      if (choice && ['1', '2', '3', '4'].includes(choice)) {
+                        handleRestart(otherDims[parseInt(choice) - 1]);
+                      }
+                    }}
+                    className="text-xs text-amber-500/60 hover:text-amber-400 transition-colors underline underline-offset-4"
+                  >
+                    🔄 换个话题
+                  </button>
+                </div>
                 <div className="relative">
                   <input
                     className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-6 pr-16 py-4 text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
