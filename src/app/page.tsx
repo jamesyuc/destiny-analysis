@@ -283,14 +283,11 @@ export default function Home() {
               // SKIP: fill slot and reset lock to trigger next question
               send({ type: 'SLOT_FILLED', key: missingSlot.key, value: 'N/A (Skipped by AI)' });
               isAskingRef.current = false;
-            } else if (data.wantsToSwitch && data.suggestedDimension) {
-              // AI detected user wants to switch topic
-              const switchMsg = data.question || `好，那我们聊聊${data.suggestedDimension === 'living' ? '居住' : data.suggestedDimension === 'wealth' ? '财运' : data.suggestedDimension === 'health' ? '健康' : data.suggestedDimension === 'relationships' ? '感情' : '其他'}的问题`;
-              setChatHistory(prev => [...prev, { role: 'ai', content: switchMsg }]);
-              // Auto-switch dimension after brief delay
-              setTimeout(() => {
-                handleRestart(data.suggestedDimension);
-              }, 1500);
+            } else if (data.wantsToSwitch) {
+              // AI detected user wants to switch - just show the message guiding to button
+              // No auto-switch, let user click the button themselves
+              setAiQuestion(data.question);
+              setChatHistory(prev => [...prev, { role: 'ai', content: data.question }]);
             } else {
               setAiQuestion(data.question);
               setChatHistory(prev => [...prev, { role: 'ai', content: data.question }]);
@@ -613,7 +610,7 @@ export default function Home() {
 
               {/* Input Area */}
               <div className="p-4 border-t border-amber-500/10 bg-black/30">
-                {/* Switch Topic Button */}
+                {/* Switch Topic Button - Made more prominent */}
                 <div className="flex justify-center mb-3">
                   <button
                     onClick={() => {
@@ -630,7 +627,13 @@ export default function Home() {
                         handleRestart(otherDims[parseInt(choice) - 1]);
                       }
                     }}
-                    className="text-xs text-amber-500/60 hover:text-amber-400 transition-colors underline underline-offset-4"
+                    className="px-4 py-2 rounded-full text-sm font-serif tracking-wide transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(0,0,0,0.4))',
+                      border: '1px solid rgba(245,158,11,0.4)',
+                      color: 'rgb(251, 191, 36)',
+                      boxShadow: '0 0 15px rgba(245,158,11,0.1)'
+                    }}
                   >
                     🔄 换个话题
                   </button>
