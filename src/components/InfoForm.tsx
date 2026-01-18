@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import clsx from 'clsx';
 import { UserProfile } from '@/types';
+import { Solar } from 'lunar-javascript';
 
 // Premium Mystic/Cyberpunk styling - single line for Tailwind compatibility
 const styles = {
@@ -33,6 +34,35 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
         if (!profile.birthYear || !profile.birthMonth || !profile.birthDay) return; // Simple validation
         onSubmit(profile);
     };
+
+    // Calculate lunar date when solar date is complete
+    const lunarDateInfo = useMemo(() => {
+        try {
+            const year = parseInt(profile.birthYear);
+            const month = parseInt(profile.birthMonth);
+            const day = parseInt(profile.birthDay);
+
+            if (year && month && day && year >= 1900 && year <= 2100 && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+                const solar = Solar.fromYmd(year, month, day);
+                const lunar = solar.getLunar();
+                const lunarYear = lunar.getYearInChinese();
+                const lunarMonth = lunar.getMonthInChinese();
+                const lunarDay = lunar.getDayInChinese();
+                const yearGanZhi = lunar.getYearInGanZhi();
+                const monthGanZhi = lunar.getMonthInGanZhi();
+                const dayGanZhi = lunar.getDayInGanZhi();
+
+                return {
+                    display: `${lunarYear}年${lunarMonth}月${lunarDay}`,
+                    ganZhi: `${yearGanZhi}年 ${monthGanZhi}月 ${dayGanZhi}日`,
+                    zodiac: lunar.getYearShengXiao()
+                };
+            }
+        } catch (e) {
+            // Invalid date
+        }
+        return null;
+    }, [profile.birthYear, profile.birthMonth, profile.birthDay]);
 
     return (
         <div
@@ -233,6 +263,25 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                                 </button>
                             </div>
                         </div>
+
+                        {/* Lunar Date Display */}
+                        {lunarDateInfo && (
+                            <div
+                                className="mt-3 p-3 rounded-lg text-center animate-fadeIn"
+                                style={{
+                                    background: 'linear-gradient(135deg, rgba(245,158,11,0.1), rgba(0,0,0,0.3))',
+                                    border: '1px solid rgba(245,158,11,0.3)',
+                                    boxShadow: '0 0 15px rgba(245,158,11,0.1)'
+                                }}
+                            >
+                                <div className="text-amber-400/90 text-sm font-serif tracking-wider">
+                                    🌙 农历: {lunarDateInfo.display}
+                                </div>
+                                <div className="text-amber-500/70 text-xs mt-1 tracking-widest">
+                                    {lunarDateInfo.ganZhi} · {lunarDateInfo.zodiac}年
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div style={{ flex: 1, minWidth: '200px', position: 'relative', zIndex: 10 }}>
