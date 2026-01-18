@@ -1,0 +1,400 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================
+   八字天机 - Mystic Scroll Theme
+   ============================================= */
+
+/* Custom Date Picker Styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) sepia(100%) saturate(1000%) hue-rotate(0deg) brightness(0.8) contrast(1.2);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+:root {
+  /* Deep Mystic Palette */
+  --background: #050510;
+  --foreground: #e0e0e0;
+
+  --primary: #d4af37;
+  /* Gold */
+  --primary-glow: rgba(212, 175, 55, 0.5);
+
+  --secondary: #8b5cf6;
+  /* Mystic Purple */
+  --secondary-glow: rgba(139, 92, 246, 0.3);
+
+  --accent: #1f1f3a;
+  /* Card bg */
+
+  --font-serif: "Times New Roman", Times, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --radius: 12px;
+
+  /* Scroll Colors */
+  --scroll-bg: #1a150d;
+  --scroll-border: #8b6914;
+  --scroll-inner: #0d0a06;
+}
+
+body {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 50% 0%, #1a1a4a 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, #1a0b00 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* =============================================
+   SCROLL CONTAINER - 古卷轴效果
+   ============================================= */
+.scroll-container {
+  /* Parchment-like gradient background */
+  background:
+    /* Inner glow */
+    radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%),
+    /* Aged parchment texture */
+    linear-gradient(180deg,
+      #1a150d 0%,
+      #0f0c08 5%,
+      #1a150d 10%,
+      #12100a 90%,
+      #0a0806 95%,
+      #1a150d 100%);
+
+  /* Double border for scroll feel */
+  border: 3px solid transparent;
+  border-image: linear-gradient(180deg,
+      #8b6914 0%,
+      #d4af37 15%,
+      #8b6914 50%,
+      #d4af37 85%,
+      #8b6914 100%) 1;
+
+  /* Outer glow */
+  box-shadow:
+    0 0 60px rgba(212, 175, 55, 0.15),
+    inset 0 0 80px rgba(0, 0, 0, 0.8),
+    inset 0 2px 1px rgba(212, 175, 55, 0.1);
+
+  position: relative;
+}
+
+/* Top and Bottom scroll "rollers" */
+.scroll-container::before,
+.scroll-container::after {
+  content: '';
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  height: 40px;
+  background: linear-gradient(90deg,
+      #2a2010 0%,
+      #3d2a12 10%,
+      #5c4420 30%,
+      #6b5028 50%,
+      #5c4420 70%,
+      #3d2a12 90%,
+      #2a2010 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.8),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.scroll-container::before {
+  top: -20px;
+}
+
+.scroll-container::after {
+  bottom: -20px;
+}
+
+/* Decorative corner symbols */
+.scroll-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  z-index: 5;
+}
+
+.scroll-corner-tl {
+  top: 20px;
+  left: 20px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.scroll-corner-tr {
+  top: 20px;
+  right: 20px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.scroll-corner-bl {
+  bottom: 20px;
+  left: 20px;
+  border-right: none;
+  border-top: none;
+}
+
+.scroll-corner-br {
+  bottom: 20px;
+  right: 20px;
+  border-left: none;
+  border-top: none;
+}
+
+/* =============================================
+   GLASS PANEL - 玻璃面板
+   ============================================= */
+.glass-panel {
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* =============================================
+   CHAT BUBBLES - 聊天气泡
+   ============================================= */
+.bubble-ai {
+  background:
+    linear-gradient(135deg,
+      rgba(30, 25, 15, 0.95) 0%,
+      rgba(45, 35, 20, 0.9) 50%,
+      rgba(25, 20, 12, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow:
+    0 4px 20px rgba(212, 175, 55, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #f5deb3;
+  position: relative;
+}
+
+.bubble-ai::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+}
+
+.bubble-user {
+  background:
+    linear-gradient(135deg,
+      rgba(30, 20, 60, 0.9) 0%,
+      rgba(40, 30, 80, 0.85) 50%,
+      rgba(25, 18, 50, 0.9) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow:
+    0 4px 20px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #e0d0ff;
+}
+
+/* =============================================
+   CHAT CONTAINER
+   ============================================= */
+.chat-container {
+  background:
+    radial-gradient(ellipse at top, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(10, 10, 20, 0.9) 0%, rgba(5, 5, 15, 0.95) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow:
+    0 0 60px rgba(0, 0, 0, 0.5),
+    inset 0 0 100px rgba(0, 0, 0, 0.3);
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+
+/* Stamp animation for the seal */
+@keyframes stamp {
+  0% {
+    transform: scale(3) rotate(-30deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.1) rotate(-12deg);
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: scale(0.95) rotate(-12deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(-12deg);
+    opacity: 1;
+  }
+}
+
+.animate-stamp {
+  animation: stamp 0.6s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+/* Rune glow effect */
+@keyframes rune-glow {
+
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(212, 175, 55, 0.5),
+      0 0 20px rgba(212, 175, 55, 0.3);
+  }
+
+  50% {
+    text-shadow:
+      0 0 20px rgba(212, 175, 55, 0.8),
+      0 0 40px rgba(212, 175, 55, 0.5),
+      0 0 60px rgba(212, 175, 55, 0.3);
+  }
+}
+
+.animate-rune-glow {
+  animation: rune-glow 3s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse ring */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3d2a12, #5c4420, #3d2a12);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #5c4420, #8b6914, #5c4420);
+}
+
+/* Custom scrollbar class */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 3px;
+}
+
+/* =============================================
+   TYPOGRAPHY ENHANCEMENTS
+   ============================================= */
+.mystic-title {
+  background: linear-gradient(135deg, #fde68a 0%, #d4af37 50%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+}
+
+/* Prose overrides for markdown */
+.prose-mystic h1,
+.prose-mystic h2,
+.prose-mystic h3 {
+  color: #d4af37;
+  font-family: var(--font-serif);
+  letter-spacing: 0.1em;
+}
+
+.prose-mystic strong {
+  color: #fbbf24;
+}
+
+.prose-mystic blockquote {
+  border-left-color: #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+  padding: 1rem;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+.prose-mystic hr {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.prose-mystic ul li::marker {
+  color: #d4af37;
+}
