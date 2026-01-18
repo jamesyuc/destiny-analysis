@@ -388,7 +388,7 @@ export default function Home() {
     }
   };
 
-  // Handle switching dimension from Report View
+  // Handle switching dimension from Report View or topic switch
   const handleRestart = (targetDimId?: string) => {
     if (!targetDimId) {
       // Full reset
@@ -396,27 +396,37 @@ export default function Home() {
       return;
     }
 
-    // Switch dimension flow
+    // Get Chinese label for the new dimension
+    const dimLabels: Record<string, string> = {
+      career: '事业', wealth: '财运', relationships: '感情',
+      health: '健康', living: '居住'
+    };
+    const newDimLabel = dimLabels[targetDimId] || '命盘';
+
+    // Preserve the original story but reset chat for new topic
+    const originalStory = state.context.userStory || '';
+
+    // Add a transition message to chat history
+    setChatHistory(prev => [
+      ...prev,
+      { role: 'ai', content: `好的，那我们来聊聊${newDimLabel}方面的事。` }
+    ]);
+
     setReportContent('');
-    setChatHistory([]);
     setConversationRound(0);
     setLastUserReply('');
-    setIntroDimensionId(null);
-    setShowDimensionIntro(false);
+    setIntroDimensionId(targetDimId);
+    setShowDimensionIntro(true);
 
-    send({ type: 'SWITCH_DIMENSION' });
+    // Reset asking lock
+    isAskingRef.current = false;
 
-    // Auto-start the new dimension
-    // We simulate a story submission to trigger the classifier
-    // The classifier is smart enough to map keywords to dimensions
-    const autoStory = targetDimId === 'career' ? '我想看看事业' :
-      targetDimId === 'wealth' ? '我想看看财运' :
-        targetDimId === 'relationships' ? '我想看看感情' :
-          targetDimId === 'health' ? '我想看看健康' : '我想继续推演';
-
-    setTimeout(() => {
-      handleDimensionSelectMock(autoStory);
-    }, 500);
+    // Switch dimension with preserved context
+    send({
+      type: 'DIMENSION_DETECTED',
+      dimensionId: targetDimId,
+      extractedInfo: {}
+    });
   };
 
   return (
