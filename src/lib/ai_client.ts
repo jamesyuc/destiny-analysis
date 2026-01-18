@@ -1,4 +1,4 @@
-const AI_BUILDER_API_URL = process.env.AI_BUILDER_API_URL || 'https://api.deepseek.com'; // Default or Placeholder
+const AI_BUILDER_API_URL = process.env.AI_BUILDER_API_URL || 'https://space.ai-builders.com/backend';
 const AI_BUILDER_TOKEN = process.env.AI_BUILDER_TOKEN;
 
 interface ChatMessage {
