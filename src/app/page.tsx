@@ -565,14 +565,14 @@ export default function Home() {
                               handleRestart(otherDims[parseInt(choice) - 1]);
                             }
                           }}
-                          className="text-xs px-2 py-1 rounded-full transition-all duration-300 hover:scale-105"
+                          className="text-xs px-3 py-1 rounded-full transition-all duration-300 hover:scale-105"
                           style={{
-                            background: 'rgba(245,158,11,0.1)',
-                            border: '1px solid rgba(245,158,11,0.3)',
+                            background: 'rgba(245,158,11,0.15)',
+                            border: '1px solid rgba(245,158,11,0.4)',
                             color: 'rgb(251, 191, 36)'
                           }}
                         >
-                          🔄 换
+                          🔄 换话题
                         </button>
                       </div>
                       <p className="text-xs text-amber-500/50 tracking-wider">天机推演中...</p>

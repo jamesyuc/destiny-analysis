@@ -92,6 +92,13 @@ export const appMachine = setup({
         },
         inquiry_loop: {
             initial: 'checking_slots',
+            on: {
+                // Allow switching dimension mid-conversation
+                DIMENSION_DETECTED: {
+                    target: '.checking_slots',
+                    actions: 'initializeSlots'
+                }
+            },
             states: {
                 checking_slots: {
                     always: [
