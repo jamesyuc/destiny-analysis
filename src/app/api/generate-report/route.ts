@@ -61,7 +61,15 @@ ${slotsContext}
 
             // We await here to ensure log is sent. In Docker env this is fine.
             try {
-                await sendReportEmail(emailContent, result, dimensionId);
+                // Race email sending with a 3-second timeout to prevent blocking response
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Email timeout')), 3000)
+                );
+
+                await Promise.race([
+                    sendReportEmail(emailContent, result, dimensionId),
+                    timeoutPromise
+                ]);
             } catch (err) {
                 console.error("Failed to send email log:", err);
                 // Don't fail the request if email fails
