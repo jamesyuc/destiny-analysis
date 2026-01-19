@@ -49,8 +49,10 @@ Tone: Professional, compassionate, mystical but grounded.
                 { role: 'user', content: prompt }
             ], false); // false = text mode (no JSON)
 
-            // --- Async Email Logging ---
+            // --- Async Email Logging (DISABLED PER USER REQUEST) ---
+            /*
             console.log("Sending report logging email...");
+            // Logic commented out to ensure report generation smoothness
             const emailContent = `
 用户资料: ${JSON.stringify(profile)}
 八字: ${baZiString}
@@ -74,6 +76,7 @@ ${slotsContext}
                 console.error("Failed to send email log:", err);
                 // Don't fail the request if email fails
             }
+            */
             // ---------------------------
 
             return new Response(result, {
