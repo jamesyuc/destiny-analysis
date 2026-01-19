@@ -517,7 +517,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="w-full max-w-2xl h-[85vh] flex flex-col z-10 relative"
+            className="w-full max-w-2xl h-[100dvh] sm:h-[85vh] flex flex-col z-10 relative"
           >
             {/* Ambient glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -526,19 +526,19 @@ export default function Home() {
             <div className="chat-container flex-1 flex flex-col rounded-2xl overflow-hidden">
 
               {/* Header / Progress */}
-              <div className="relative px-6 py-5 border-b border-amber-500/20">
+              <div className="relative px-4 sm:px-6 py-3 sm:py-5 border-b border-amber-500/20">
                 {/* Decorative line */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
 
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full border-2 border-amber-500/40 flex items-center justify-center bg-amber-900/30 animate-pulse-ring">
-                      <span className="text-amber-400 text-lg">☯</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-amber-500/40 flex items-center justify-center bg-amber-900/30 animate-pulse-ring shrink-0">
+                      <span className="text-amber-400 text-base sm:text-lg">☯</span>
                     </div>
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <h3
-                          className="text-xl font-serif tracking-widest"
+                          className="text-lg sm:text-xl font-serif tracking-widest"
                           style={{
                             background: 'linear-gradient(90deg, #fde68a, #d4af37)',
                             WebkitBackgroundClip: 'text',
@@ -575,12 +575,12 @@ export default function Home() {
                           🔄 换话题
                         </button>
                       </div>
-                      <p className="text-xs text-amber-500/50 tracking-wider">天机推演中...</p>
+                      <p className="text-[10px] sm:text-xs text-amber-500/50 tracking-wider">天机推演中...</p>
                     </div>
                   </div>
 
-                  {/* Progress indicator - subtle, no numbers */}
-                  <div className="text-right">
+                  {/* Progress indicator - hidden on very small screens */}
+                  <div className="hidden sm:block text-right">
                     <div className="text-xs text-gray-500 mb-1 opacity-70">命盘解析</div>
                     <div className="flex items-center gap-2">
                       <div className="w-20 h-1.5 bg-black/40 rounded-full overflow-hidden">
@@ -598,7 +598,7 @@ export default function Home() {
               </div>
 
               {/* Chat History */}
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-3 sm:p-6 space-y-4 sm:space-y-6">
                 {chatHistory.map((msg, idx) => (
                   <motion.div
                     key={idx}
@@ -609,12 +609,12 @@ export default function Home() {
                   >
                     {/* AI Avatar */}
                     {msg.role === 'ai' && (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-900/80 to-amber-800/60 border border-amber-500/40 flex items-center justify-center mr-3 mt-1 shrink-0 shadow-lg">
-                        <span className="text-amber-400 text-sm font-serif font-bold">道</span>
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-amber-900/80 to-amber-800/60 border border-amber-500/40 flex items-center justify-center mr-2 sm:mr-3 mt-1 shrink-0 shadow-lg">
+                        <span className="text-amber-400 text-xs sm:text-sm font-serif font-bold">道</span>
                       </div>
                     )}
 
-                    <div className={`max-w-[75%] p-5 rounded-2xl text-[15px] leading-relaxed relative ${msg.role === 'user' ? 'bubble-user rounded-br-sm' : 'bubble-ai rounded-bl-sm'}`}>
+                    <div className={`max-w-[85%] sm:max-w-[75%] p-3 sm:p-5 rounded-2xl text-sm sm:text-[15px] leading-relaxed relative ${msg.role === 'user' ? 'bubble-user rounded-br-sm' : 'bubble-ai rounded-bl-sm'}`}>
                       {msg.content}
                       {/* Decorative corner for AI */}
                       {msg.role === 'ai' && (
@@ -627,8 +627,8 @@ export default function Home() {
 
                     {/* User Avatar */}
                     {msg.role === 'user' && (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-900/80 to-purple-800/60 border border-purple-500/40 flex items-center justify-center ml-3 mt-1 shrink-0 shadow-lg">
-                        <span className="text-purple-300 text-sm">👤</span>
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-purple-900/80 to-purple-800/60 border border-purple-500/40 flex items-center justify-center ml-2 sm:ml-3 mt-1 shrink-0 shadow-lg">
+                        <span className="text-purple-300 text-xs sm:text-sm">👤</span>
                       </div>
                     )}
                   </motion.div>
@@ -636,7 +636,7 @@ export default function Home() {
 
                 {/* Loading indicator */}
                 {isProcessing && (
-                  <div className="flex justify-start items-center gap-2 ml-14">
+                  <div className="flex justify-start items-center gap-2 ml-10 sm:ml-14">
                     <div className="flex gap-1.5 p-3 px-5 rounded-full bg-amber-900/30 border border-amber-500/20">
                       <div className="w-2.5 h-2.5 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
                       <div className="w-2.5 h-2.5 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
@@ -648,10 +648,10 @@ export default function Home() {
               </div>
 
               {/* Input Area */}
-              <div className="p-4 border-t border-amber-500/10 bg-black/30">
+              <div className="p-3 sm:p-4 border-t border-amber-500/10 bg-black/30">
                 <div className="relative">
                   <input
-                    className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-6 pr-16 py-4 text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
+                    className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-4 sm:pl-6 pr-14 sm:pr-16 py-3 sm:py-4 text-sm sm:text-base text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
                     placeholder="请输入您的回应..."
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && e.currentTarget.value.trim()) {
@@ -661,7 +661,7 @@ export default function Home() {
                     }}
                   />
                   <button
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 flex items-center justify-center text-black font-bold text-xl hover:from-amber-500 hover:to-amber-400 transition-all shadow-lg hover:shadow-amber-500/30 active:scale-95"
+                    className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 flex items-center justify-center text-black font-bold text-lg sm:text-xl hover:from-amber-500 hover:to-amber-400 transition-all shadow-lg hover:shadow-amber-500/30 active:scale-95"
                     onClick={() => {
                       const input = document.querySelector('input[placeholder="请输入您的回应..."]') as HTMLInputElement;
                       if (input?.value.trim()) {

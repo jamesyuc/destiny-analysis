@@ -66,7 +66,7 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
 
     return (
         <div
-            className="relative w-full max-w-2xl mx-auto p-8 md:p-12 rounded-2xl border"
+            className="relative w-full max-w-2xl mx-auto p-4 sm:p-8 md:p-12 rounded-2xl border"
             style={{
                 background: 'linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(15,23,42,0.6), rgba(0,0,0,0.85))',
                 borderColor: 'rgba(245,158,11,0.4)',
@@ -84,7 +84,7 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
             <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-amber-400/60" />
 
             <h2
-                className="text-3xl font-serif mb-2 text-center tracking-widest font-bold"
+                className="text-2xl sm:text-3xl font-serif mb-2 text-center tracking-widest font-bold"
                 style={{
                     background: 'linear-gradient(to right, #fde68a, #f59e0b, #fde68a)',
                     WebkitBackgroundClip: 'text',
@@ -98,20 +98,20 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
 
             <form onSubmit={handleSubmit}>
                 <div className="mb-8 relative z-10">
-                    <label className="block text-sm text-amber-300/80 mb-3 font-serif tracking-widest uppercase">性别 / Gender</label>
-                    <div className="flex justify-center gap-8 py-4">
+                    <label className="block text-xs sm:text-sm text-amber-300/80 mb-3 font-serif tracking-widest uppercase">性别 / Gender</label>
+                    <div className="flex justify-center gap-4 sm:gap-8 py-4">
                         {/* Male Tablet (乾造) */}
                         <div
                             onClick={() => setProfile({ ...profile, gender: 'male' })}
                             className={clsx(
-                                "relative w-24 h-32 rounded-lg border-2 cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 shadow-xl group overflow-hidden",
+                                "relative w-20 h-28 sm:w-24 sm:h-32 rounded-lg border-2 cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 shadow-xl group overflow-hidden",
                                 profile.gender === 'male'
                                     ? "bg-amber-700/90 border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.6)] scale-105"
                                     : "bg-black/60 border-white/10 hover:border-white/30 grayscale opacity-70"
                             )}
                         >
                             <div className={clsx(
-                                "text-2xl font-serif writing-vertical-rl font-bold tracking-widest z-10",
+                                "text-xl sm:text-2xl font-serif writing-vertical-rl font-bold tracking-widest z-10",
                                 profile.gender === 'male' ? "text-amber-100" : "text-gray-500"
                             )}>
                                 乾造
@@ -133,14 +133,14 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                         <div
                             onClick={() => setProfile({ ...profile, gender: 'female' })}
                             className={clsx(
-                                "relative w-24 h-32 rounded-lg border-2 cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 shadow-xl group overflow-hidden",
+                                "relative w-20 h-28 sm:w-24 sm:h-32 rounded-lg border-2 cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 shadow-xl group overflow-hidden",
                                 profile.gender === 'female'
                                     ? "bg-amber-700/90 border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.6)] scale-105"
                                     : "bg-black/60 border-white/10 hover:border-white/30 grayscale opacity-70"
                             )}
                         >
                             <div className={clsx(
-                                "text-2xl font-serif writing-vertical-rl font-bold tracking-widest z-10",
+                                "text-xl sm:text-2xl font-serif writing-vertical-rl font-bold tracking-widest z-10",
                                 profile.gender === 'female' ? "text-amber-100" : "text-gray-500"
                             )}>
                                 坤造
@@ -160,17 +160,17 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                     </div>
                 </div>
 
-                {/* Date & Time Grid - side by side */}
-                <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-                    <div style={{ flex: 'none', position: 'relative', zIndex: 10 }}>
-                        <label className="block text-sm text-amber-300/80 mb-3 font-serif tracking-widest uppercase">出生日期 / Date of Birth</label>
-                        <div className="flex items-center gap-2">
+                {/* Date & Time Grid - stack on mobile */}
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div className="flex-1 relative z-10">
+                        <label className="block text-xs sm:text-sm text-amber-300/80 mb-3 font-serif tracking-widest uppercase">出生日期 / Date of Birth</label>
+                        <div className="flex items-center gap-1 sm:gap-2">
                             {/* Year input */}
                             <input
                                 type="text"
                                 placeholder="年"
                                 maxLength={4}
-                                className="w-16 bg-black/70 rounded-lg px-2 py-4 text-amber-100 text-lg tracking-wider text-center focus:outline-none focus:border-amber-400/60 transition-all duration-300"
+                                className="w-14 sm:w-16 bg-black/70 rounded-lg px-1 sm:px-2 py-3 sm:py-4 text-amber-100 text-base sm:text-lg tracking-wider text-center focus:outline-none focus:border-amber-400/60 transition-all duration-300"
                                 style={{
                                     border: '2px solid rgba(245,158,11,0.3)',
                                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
@@ -187,7 +187,7 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                                 type="text"
                                 placeholder="月"
                                 maxLength={2}
-                                className="w-12 bg-black/70 rounded-lg px-2 py-4 text-amber-100 text-lg tracking-wider text-center focus:outline-none focus:border-amber-400/60 transition-all duration-300"
+                                className="w-10 sm:w-12 bg-black/70 rounded-lg px-1 sm:px-2 py-3 sm:py-4 text-amber-100 text-base sm:text-lg tracking-wider text-center focus:outline-none focus:border-amber-400/60 transition-all duration-300"
                                 style={{
                                     border: '2px solid rgba(245,158,11,0.3)',
                                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
@@ -210,7 +210,7 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                                 type="text"
                                 placeholder="日"
                                 maxLength={2}
-                                className="w-12 bg-black/70 rounded-lg px-2 py-4 text-amber-100 text-lg tracking-wider text-center focus:outline-none focus:border-amber-400/60 transition-all duration-300"
+                                className="w-10 sm:w-12 bg-black/70 rounded-lg px-1 sm:px-2 py-3 sm:py-4 text-amber-100 text-base sm:text-lg tracking-wider text-center focus:outline-none focus:border-amber-400/60 transition-all duration-300"
                                 style={{
                                     border: '2px solid rgba(245,158,11,0.3)',
                                     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
@@ -243,7 +243,7 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                                 />
                                 <button
                                     type="button"
-                                    className="w-12 h-12 bg-black/70 rounded-lg flex items-center justify-center cursor-pointer hover:bg-amber-500/20 transition-colors"
+                                    className="w-10 h-10 sm:w-12 sm:h-12 bg-black/70 rounded-lg flex items-center justify-center cursor-pointer hover:bg-amber-500/20 transition-colors"
                                     style={{
                                         border: '2px solid rgba(245,158,11,0.3)'
                                     }}
@@ -284,10 +284,10 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
                         )}
                     </div>
 
-                    <div style={{ flex: 1, minWidth: '200px', position: 'relative', zIndex: 10 }}>
-                        <label className="block text-sm text-amber-300/80 mb-3 font-serif tracking-widest uppercase">出生时辰 / Time</label>
+                    <div className="flex-1 min-w-0 relative z-10">
+                        <label className="block text-xs sm:text-sm text-amber-300/80 mb-3 font-serif tracking-widest uppercase">出生时辰 / Time</label>
                         <select
-                            className="w-full bg-black/70 rounded-xl px-5 py-4 text-amber-100 text-lg tracking-wider appearance-none cursor-pointer focus:outline-none"
+                            className="w-full bg-black/70 rounded-xl px-3 sm:px-5 py-3 sm:py-4 text-amber-100 text-base sm:text-lg tracking-wider appearance-none cursor-pointer focus:outline-none"
                             style={{
                                 border: '2px solid rgba(245,158,11,0.3)',
                                 boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
@@ -314,7 +314,7 @@ export const InfoForm: React.FC<InfoFormProps> = ({ onSubmit }) => {
 
                 <button
                     type="submit"
-                    className="w-full py-5 rounded-xl font-serif text-xl tracking-widest uppercase text-black font-bold transform hover:scale-105 active:scale-95 transition-all duration-300"
+                    className="w-full py-4 sm:py-5 rounded-xl font-serif text-lg sm:text-xl tracking-widest uppercase text-black font-bold transform hover:scale-105 active:scale-95 transition-all duration-300"
                     style={{
                         background: 'linear-gradient(to right, #d97706, #f59e0b, #d97706)',
                         boxShadow: '0 0 40px rgba(245,158,11,0.4), inset 0 1px 0 rgba(255,255,255,0.3)'
