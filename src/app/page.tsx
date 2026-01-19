@@ -672,13 +672,7 @@ export default function Home() {
               <ReportView
                 reportContent={reportContent}
                 activeDimensionId={state.context.activeDimensionId || undefined}
-                onRestart={(dim) => {
-                  if (dim) {
-                    send({ type: 'SWITCH_DIMENSION', dimensionId: dim });
-                  } else {
-                    window.location.reload();
-                  }
-                }}
+                onRestart={handleRestart}
               />
             )}
 
