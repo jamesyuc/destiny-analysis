@@ -651,10 +651,11 @@ export default function Home() {
               </div>
 
               {/* Input Area */}
+              {/* Input Area */}
               <div className="p-3 sm:p-4 pb-4 sm:pb-6 border-t border-amber-500/10 bg-black/30">
-                <div className="relative">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <input
-                    className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-5 sm:pl-6 pr-16 sm:pr-20 py-3 sm:py-4 text-sm sm:text-base text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
+                    className="flex-1 bg-black/50 border-2 border-amber-500/20 rounded-full px-5 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide min-w-0"
                     placeholder="请输入您的回应..."
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && e.currentTarget.value.trim()) {
@@ -664,7 +665,7 @@ export default function Home() {
                     }}
                   />
                   <button
-                    className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 flex items-center justify-center text-black font-bold text-lg sm:text-xl hover:from-amber-500 hover:to-amber-400 transition-all shadow-lg hover:shadow-amber-500/30 active:scale-95"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 flex items-center justify-center text-black font-bold text-lg sm:text-xl hover:from-amber-500 hover:to-amber-400 transition-all shadow-lg hover:shadow-amber-500/30 active:scale-95 shrink-0"
                     onClick={() => {
                       const input = document.querySelector('input[placeholder="请输入您的回应..."]') as HTMLInputElement;
                       if (input?.value.trim()) {
