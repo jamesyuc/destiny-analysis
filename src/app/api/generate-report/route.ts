@@ -49,11 +49,31 @@ Tone: Professional, compassionate, mystical but grounded.
                 { role: 'user', content: prompt }
             ], false); // false = text mode (no JSON)
 
-            // --- Async Email Logging (DISABLED FOR DEBUGGING) ---
-            /*
+            // --- Async Email Logging ---
             console.log("Sending report logging email...");
-            // ... (Logic removed to unblock report generation) ...
-            */
+            const emailContent = `
+用户资料: ${JSON.stringify(profile)}
+八字: ${baZiString}
+-------------------
+用户输入与槽位:
+${slotsContext}
+            `.trim();
+
+            // We await here to ensure log is sent. In Docker env this is fine.
+            try {
+                // Race email sending with a 3-second timeout to prevent blocking response
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Email timeout')), 3000)
+                );
+
+                await Promise.race([
+                    sendReportEmail(emailContent, result, dimensionId),
+                    timeoutPromise
+                ]);
+            } catch (err) {
+                console.error("Failed to send email log:", err);
+                // Don't fail the request if email fails
+            }
             // ---------------------------
 
             return new Response(result, {

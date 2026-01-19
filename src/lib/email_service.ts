@@ -45,7 +45,8 @@ ${reportContent}
             <p style="background:#f5f5f5; padding: 10px; border-radius: 5px;">${userStory}</p>
             <hr/>
             <h3>推演报告</h3>
-            <div style="white-space: pre-wrap; font-family: serif; color: #333;">${reportContent.replace(/\n/g, '<br/>')}</div>
+            <h3>推演报告</h3>
+            <div style="white-space: pre-wrap; font-family: serif; color: #333;">${reportContent.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br/>')}</div>
             `
         });
 
