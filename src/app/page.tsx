@@ -4,8 +4,9 @@ import { useMachine } from '@xstate/react';
 import { appMachine } from '@/lib/state_machine';
 import { InfoForm } from '@/components/InfoForm';
 import { StoryInput } from '@/components/StoryInput';
-import { ReportView } from '@/components/ReportView'; // Import
-import { DimensionTransition } from '@/components/DimensionTransition'; // Import
+import { ReportView } from '@/components/ReportView';
+import { DimensionTransition } from '@/components/DimensionTransition';
+import { TopicSwitcher } from '@/components/TopicSwitcher'; // Import TopicSwitcher
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 import { SlotState } from '@/types';
@@ -404,22 +405,25 @@ export default function Home() {
     // Preserve the original story but reset chat for new topic
     const originalStory = state.context.userStory || '';
 
-    // Add a transition message to chat history
+    // Add a transition message with separator to chat history
     setChatHistory(prev => [
       ...prev,
+      { role: 'ai', content: `---` }, // Visual separator
+      { role: 'ai', content: `**已切换至【${newDimLabel}】**` },
       { role: 'ai', content: `好的，那我们来聊聊${newDimLabel}方面的事。` }
     ]);
 
     setReportContent('');
-    setConversationRound(0);
+    setConversationRound(0); // Reset round
     setLastUserReply('');
+    setIsProcessing(false);
     setIntroDimensionId(targetDimId);
     setShowDimensionIntro(true);
 
     // Reset asking lock
     isAskingRef.current = false;
 
-    // Switch dimension with preserved context
+    // Explicitly transition state
     send({
       type: 'DIMENSION_DETECTED',
       dimensionId: targetDimId,
@@ -535,48 +539,24 @@ export default function Home() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3
-                          className="text-lg sm:text-xl font-serif tracking-widest"
-                          style={{
-                            background: 'linear-gradient(90deg, #fde68a, #d4af37)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                          }}
-                        >
-                          {(() => {
-                            const dimId = state.context.activeDimensionId || 'career';
-                            const dim = KNOWLEDGE_BASE[dimId];
-                            const label = dim ? dim.label.replace('前程', '').replace('运势', '').replace('婚姻', '').replace('环境', '') : '命盘';
-                            return `${label} 之局`;
-                          })()}
-                        </h3>
-                        {/* Switch Topic Button - next to title */}
-                        <button
-                          onClick={() => {
-                            // Dynamically get dimensions from knowledge base
-                            const allDims = Object.keys(KNOWLEDGE_BASE);
-                            const currentDim = state.context.activeDimensionId;
-                            const otherDims = allDims.filter(d => d !== currentDim);
-                            const labels: Record<string, string> = Object.fromEntries(
-                              Object.entries(KNOWLEDGE_BASE).map(([id, dim]) => [id, dim.label.replace('前程', '').replace('运势', '').replace('婚姻', '').replace('环境', '')])
-                            );
-                            // Build prompt dynamically
-                            const options = otherDims.map((d, i) => `${i + 1}. ${labels[d] || d}`).join('\n');
-                            const choice = prompt(`想换个话题？\n\n${options}\n\n输入数字 1-${otherDims.length}:`);
-                            const choiceNum = parseInt(choice || '');
-                            if (choiceNum >= 1 && choiceNum <= otherDims.length) {
-                              handleRestart(otherDims[choiceNum - 1]);
-                            }
-                          }}
-                          className="text-xs px-3 py-1 rounded-full transition-all duration-300 hover:scale-105"
-                          style={{
-                            background: 'rgba(245,158,11,0.15)',
-                            border: '1px solid rgba(245,158,11,0.4)',
-                            color: 'rgb(251, 191, 36)'
-                          }}
-                        >
-                          🔄 换话题
-                        </button>
+                        {/* Header Title with Topic Switcher */}
+                        <div className="flex items-center gap-2 relative">
+                          <h2 className="text-xl sm:text-2xl font-serif text-amber-100 tracking-widest drop-shadow-md">
+                            {(() => {
+                              const dimId = state.context.activeDimensionId || 'career';
+                              const dim = KNOWLEDGE_BASE[dimId];
+                              const label = dim ? dim.label.replace('前程', '').replace('运势', '').replace('婚姻', '').replace('环境', '') : '命盘';
+                              return `${label} 之局`;
+                            })()}
+                          </h2>
+
+                          <div className="ml-2">
+                            <TopicSwitcher
+                              activeDimensionId={state.context.activeDimensionId}
+                              onSwitch={(id) => handleRestart(id)}
+                            />
+                          </div>
+                        </div>
                       </div>
                       <p className="text-[10px] sm:text-xs text-amber-500/50 tracking-wider">天机推演中...</p>
                     </div>

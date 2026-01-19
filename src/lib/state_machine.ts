@@ -127,6 +127,17 @@ export const appMachine = setup({
                         slots: []
                     })
                 },
+                DIMENSION_DETECTED: {
+                    target: 'inquiry_loop.checking_slots',
+                    actions: [
+                        assign({
+                            activeDimensionId: ({ event }) => (event.type === 'DIMENSION_DETECTED' ? event.dimensionId : null),
+                            // Clear slots for new dimension but KEEP userStory
+                            slots: []
+                        }),
+                        'initializeSlots'
+                    ]
+                },
                 RESET: {
                     target: 'idle',
                     actions: assign({
