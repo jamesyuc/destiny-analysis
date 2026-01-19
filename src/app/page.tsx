@@ -9,6 +9,7 @@ import { DimensionTransition } from '@/components/DimensionTransition'; // Impor
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 import { SlotState } from '@/types';
+import { KNOWLEDGE_BASE } from '@/lib/knowledge_base';
 
 export default function Home() {
   const [state, send] = useMachine(appMachine);
@@ -396,12 +397,9 @@ export default function Home() {
       return;
     }
 
-    // Get Chinese label for the new dimension
-    const dimLabels: Record<string, string> = {
-      career: '事业', wealth: '财运', relationships: '感情',
-      health: '健康', living: '居住'
-    };
-    const newDimLabel = dimLabels[targetDimId] || '命盘';
+    // Get Chinese label for the new dimension from knowledge base
+    const dim = KNOWLEDGE_BASE[targetDimId];
+    const newDimLabel = dim ? dim.label.replace('前程', '').replace('运势', '').replace('婚姻', '').replace('环境', '') : '命盘';
 
     // Preserve the original story but reset chat for new topic
     const originalStory = state.context.userStory || '';
@@ -545,24 +543,29 @@ export default function Home() {
                             WebkitTextFillColor: 'transparent',
                           }}
                         >
-                          {{
-                            career: '事业', wealth: '财运', relationships: '感情',
-                            health: '健康', living: '居住'
-                          }[state.context.activeDimensionId || 'career'] || '命盘'} 之局
+                          {(() => {
+                            const dimId = state.context.activeDimensionId || 'career';
+                            const dim = KNOWLEDGE_BASE[dimId];
+                            const label = dim ? dim.label.replace('前程', '').replace('运势', '').replace('婚姻', '').replace('环境', '') : '命盘';
+                            return `${label} 之局`;
+                          })()}
                         </h3>
                         {/* Switch Topic Button - next to title */}
                         <button
                           onClick={() => {
-                            const dims = ['career', 'wealth', 'relationships', 'health', 'living'];
+                            // Dynamically get dimensions from knowledge base
+                            const allDims = Object.keys(KNOWLEDGE_BASE);
                             const currentDim = state.context.activeDimensionId;
-                            const otherDims = dims.filter(d => d !== currentDim);
-                            const labels: Record<string, string> = {
-                              career: '事业', wealth: '财运', relationships: '感情',
-                              health: '健康', living: '居住'
-                            };
-                            const choice = prompt(`想换个话题？\n\n1. ${labels[otherDims[0]]}\n2. ${labels[otherDims[1]]}\n3. ${labels[otherDims[2]]}\n4. ${labels[otherDims[3]]}\n\n输入数字 1-4:`);
-                            if (choice && ['1', '2', '3', '4'].includes(choice)) {
-                              handleRestart(otherDims[parseInt(choice) - 1]);
+                            const otherDims = allDims.filter(d => d !== currentDim);
+                            const labels: Record<string, string> = Object.fromEntries(
+                              Object.entries(KNOWLEDGE_BASE).map(([id, dim]) => [id, dim.label.replace('前程', '').replace('运势', '').replace('婚姻', '').replace('环境', '')])
+                            );
+                            // Build prompt dynamically
+                            const options = otherDims.map((d, i) => `${i + 1}. ${labels[d] || d}`).join('\n');
+                            const choice = prompt(`想换个话题？\n\n${options}\n\n输入数字 1-${otherDims.length}:`);
+                            const choiceNum = parseInt(choice || '');
+                            if (choiceNum >= 1 && choiceNum <= otherDims.length) {
+                              handleRestart(otherDims[choiceNum - 1]);
                             }
                           }}
                           className="text-xs px-3 py-1 rounded-full transition-all duration-300 hover:scale-105"
