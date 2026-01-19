@@ -648,10 +648,10 @@ export default function Home() {
               </div>
 
               {/* Input Area */}
-              <div className="p-3 sm:p-4 border-t border-amber-500/10 bg-black/30">
+              <div className="p-3 sm:p-4 pb-4 sm:pb-6 border-t border-amber-500/10 bg-black/30">
                 <div className="relative">
                   <input
-                    className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-4 sm:pl-6 pr-14 sm:pr-16 py-3 sm:py-4 text-sm sm:text-base text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
+                    className="w-full bg-black/50 border-2 border-amber-500/20 rounded-full pl-5 sm:pl-6 pr-16 sm:pr-20 py-3 sm:py-4 text-sm sm:text-base text-amber-100 focus:outline-none focus:border-amber-500/50 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)] transition-all placeholder-amber-900/50 font-serif tracking-wide"
                     placeholder="请输入您的回应..."
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && e.currentTarget.value.trim()) {

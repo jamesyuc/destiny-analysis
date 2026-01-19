@@ -98,5 +98,32 @@ export const KNOWLEDGE_BASE: KnowledgeBase = {
                 description: "最想解决的健康问题是什么，有什么担心"
             }
         ]
+    },
+    living: {
+        id: "living",
+        label: "居住环境",
+        description: "分析居住风水、搬迁时机与环境选择",
+        slots: [
+            {
+                key: "current_living",
+                question_intent: "现在的居住情况",
+                description: "目前住的是租房还是自有房产，环境如何"
+            },
+            {
+                key: "living_concerns",
+                question_intent: "居住方面的困扰",
+                description: "是否有噪音、邻里关系、采光通风等问题"
+            },
+            {
+                key: "relocation_plans",
+                question_intent: "搬迁或置业计划",
+                description: "是否有搬家、买房、装修的打算"
+            },
+            {
+                key: "ideal_environment",
+                question_intent: "理想居住环境",
+                description: "喜欢什么样的居住环境，城市还是郊区，高层还是别墅"
+            }
+        ]
     }
 };
