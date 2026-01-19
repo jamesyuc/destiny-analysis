@@ -430,7 +430,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden bg-[url('/bg-grain.png')]">
+    <main className="min-h-[100dvh] flex flex-col items-center justify-center p-2 xs:p-3 sm:p-4 relative overflow-hidden bg-[url('/bg-grain.png')]">
 
       {/* Dimension Transition Overlay */}
       <AnimatePresence>
