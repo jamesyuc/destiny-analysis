@@ -414,11 +414,9 @@ export default function Home() {
     ]);
 
     setReportContent('');
-    setConversationRound(0); // Reset round
-    setLastUserReply('');
-    setIsProcessing(false);
-    setIntroDimensionId(targetDimId);
-    setShowDimensionIntro(true);
+    // setIsProcessing(false); 
+    // setIntroDimensionId(targetDimId);
+    // setShowDimensionIntro(true);  <-- Removed to prevent "going back" feeling
 
     // Reset asking lock
     isAskingRef.current = false;
