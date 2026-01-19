@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { calculateBaZi } from '@/lib/bazi';
 import { UserProfile, SlotState } from '@/types';
 import { callAI, callAIStream } from '@/lib/ai_client';
+import { sendReportEmail } from '@/lib/email_service';
 
 // Note: Removed 'edge' runtime for better compatibility with streaming
 
@@ -47,6 +48,25 @@ Tone: Professional, compassionate, mystical but grounded.
                 { role: 'user', content: "You are an expert Ba Zi consultant." },
                 { role: 'user', content: prompt }
             ], false); // false = text mode (no JSON)
+
+            // --- Async Email Logging ---
+            console.log("Sending report logging email...");
+            const emailContent = `
+用户资料: ${JSON.stringify(profile)}
+八字: ${baZiString}
+-------------------
+用户输入与槽位:
+${slotsContext}
+            `.trim();
+
+            // We await here to ensure log is sent. In Docker env this is fine.
+            try {
+                await sendReportEmail(emailContent, result, dimensionId);
+            } catch (err) {
+                console.error("Failed to send email log:", err);
+                // Don't fail the request if email fails
+            }
+            // ---------------------------
 
             return new Response(result, {
                 headers: {
