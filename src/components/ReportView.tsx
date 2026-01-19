@@ -122,11 +122,45 @@ export const ReportView: React.FC<ReportViewProps> = ({ reportContent, activeDim
                     </motion.div>
                 )}
 
-                {/* Bottom decoration */}
-                <div className="mt-8 flex items-center justify-center gap-4 opacity-60">
-                    <div className="w-12 h-px bg-gradient-to-r from-transparent to-amber-500/30" />
-                    <span className="text-amber-500/40 text-sm font-serif">道法自然</span>
-                    <div className="w-12 h-px bg-gradient-to-l from-transparent to-amber-500/30" />
+                {/* Bottom decoration and Share Button */}
+                <div className="mt-8 flex flex-col items-center gap-6">
+                    <div className="flex items-center justify-center gap-4 opacity-60">
+                        <div className="w-12 h-px bg-gradient-to-r from-transparent to-amber-500/30" />
+                        <span className="text-amber-500/40 text-sm font-serif">道法自然</span>
+                        <div className="w-12 h-px bg-gradient-to-l from-transparent to-amber-500/30" />
+                    </div>
+
+                    {/* Share Button */}
+                    {isComplete && (
+                        <div className="flex flex-col items-center gap-2">
+                            <motion.button
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="flex items-center gap-2 px-6 py-2 rounded-full bg-amber-900/40 border border-amber-500/30 text-amber-200 hover:bg-amber-800/60 hover:border-amber-500/60 transition-all font-serif tracking-widest text-sm shadow-lg hover:shadow-amber-500/20"
+                                onClick={() => {
+                                    const shareData = {
+                                        title: '天机乾坤 - 命理推演报告',
+                                        text: reportContent,
+                                        url: window.location.href
+                                    };
+
+                                    if (navigator.share) {
+                                        navigator.share(shareData).catch(console.error);
+                                    } else {
+                                        navigator.clipboard.writeText(`【天机乾坤】\n\n${reportContent}\n\n${window.location.href}`)
+                                            .then(() => alert('报告已复制到剪贴板'))
+                                            .catch(() => alert('复制失败，请手动复制'));
+                                    }
+                                }}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-share-2"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg>
+                                分享天机
+                            </motion.button>
+                            <p className="text-xs text-amber-500/30">让有缘人共赏</p>
+                        </div>
+                    )}
                 </div>
             </motion.div>
 
